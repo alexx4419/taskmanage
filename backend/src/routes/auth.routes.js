@@ -6,7 +6,7 @@ import { protect } from '../middlewares/auth.middleware.js';
 
 const router = express.Router();
 
-const generateToken = (id) => jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '30d' });
+const generateToken = (id) => jwt.sign({ id }, process.env.JWT_SECRET || 'super-secret-fallback-key', { expiresIn: '30d' });
 
 const VALID_ROLES = ['PROJECT_LEAD', 'QUALITY_REVIEWER', 'TASKER'];
 
@@ -23,7 +23,7 @@ router.post('/register', async (req, res) => {
     });
     res.status(201).json({ id: user.id, name: user.name, email: user.email, role: user.role, token: generateToken(user.id) });
   } catch (err) {
-    res.status(500).json({ message: 'Server error', error: err.message });
+    res.status(500).json({ message: err.message || 'Server error', error: err.message });
   }
 });
 
@@ -35,7 +35,7 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ message: 'Invalid email or password' });
     res.json({ id: user.id, name: user.name, email: user.email, role: user.role, token: generateToken(user.id) });
   } catch (err) {
-    res.status(500).json({ message: 'Server error', error: err.message });
+    res.status(500).json({ message: err.message || 'Server error', error: err.message });
   }
 });
 

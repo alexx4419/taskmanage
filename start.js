@@ -6,7 +6,7 @@ const backendPath = path.join(process.cwd(), 'backend');
 if (process.env.DATABASE_URL) {
   console.log('DATABASE_URL found. Running Prisma migrations...');
   try {
-    execSync('npx prisma migrate deploy', { stdio: 'inherit', cwd: backendPath });
+    execSync('npx prisma db push', { stdio: 'inherit', cwd: backendPath });
   } catch (error) {
     console.error('Migration failed:', error.message);
     process.exit(1);
