@@ -3,11 +3,12 @@
   "version": "1.0.0",
   "private": true,
   "engines": {
-    "node": "20.x"
+    "node": ">=20.x"
   },
   "scripts": {
-    "install": "npm install --prefix backend && npm install --prefix frontend",
-    "build": "npm run build --prefix frontend && cd backend && npx prisma generate && npx prisma db push",
-    "start": "cd backend && node src/index.js"
+    "install": "cd backend && npm install && cd ../frontend && npm install",
+    "dev": "npm run dev --prefix backend & npm run dev --prefix frontend",
+    "build": "cd backend && npm install && npx prisma generate && cd ../frontend && npm install && npm run build",
+    "start": "cd backend && npx prisma migrate deploy && npm start"
   }
 }
